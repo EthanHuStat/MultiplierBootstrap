@@ -21,7 +21,7 @@ Methods included
     Onatski sequential fixed-upper test
     DPA
     ACT adjusted correlation thresholding (Fan-Guo-Zheng)
-    Ding-Yang max gap-ratio sequential tests
+    Ding-Yang local gap-ratio sequential tests
 
 Main design
 -----------
@@ -196,7 +196,7 @@ ONATSKI_K_UPPER = int(os.environ.get("ONATSKI_K_UPPER", "8"))
 # the beginning of the experiment, saved, and then reused inside all
 # replications.  We run only DY-local for comparison by default.
 RUN_DY_LOCAL = os.environ.get("RUN_DY_LOCAL", "1") != "0"
-RUN_DY_MAX = os.environ.get("RUN_DY_MAX", "1") != "0"
+RUN_DY_MAX = False  # Max statistic disabled; use DY-local only.
 DY_ALPHA = float(os.environ.get("DY_ALPHA", str(ALPHA)))
 DY_R_STAR = int(os.environ.get("DY_R_STAR", str(ONATSKI_K_UPPER)))
 DY_NULL_REPS = int(os.environ.get("DY_NULL_REPS", "2000"))
@@ -1559,25 +1559,15 @@ def estimate_all_comparison_methods(
         alpha=ONATSKI_ALPHA,
         k_upper=ONATSKI_K_UPPER,
     )
-    # if RUN_DY_LOCAL:
-    #     results["Ding-Yang-local"] = ding_yang_sequential_gap_test(
-    #         X,
-    #         features_axis=features_axis,
-    #         center=center,
-    #         r_star=DY_R_STAR,
-    #         alpha=DY_ALPHA,
-    #         statistic="local",
-    #         crit_by_r0=dy_local_crit_by_r0,
-    #     )
-    if RUN_DY_MAX:
-        results["Ding-Yang-max"] = ding_yang_sequential_gap_test(
+    if RUN_DY_LOCAL:
+        results["Ding-Yang-local"] = ding_yang_sequential_gap_test(
             X,
             features_axis=features_axis,
             center=center,
             r_star=DY_R_STAR,
             alpha=DY_ALPHA,
-            statistic="max",
-            crit_by_r0=dy_max_crit_by_r0,
+            statistic="local",
+            crit_by_r0=dy_local_crit_by_r0,
         )
     results["DPA"] = dpa(
         X,
@@ -2578,7 +2568,7 @@ def run_block(
         "comparison_methods": "Proposed,ACT,BEMA,BEMA0,EKC,Bai-Ng,"
             "Pass-Yao-1gap,Pass-Yao-2gap-calibrated,"
             "Pass-Yao-2gap-default-C6,Onatski,Ding-Yang-local,"
-            "Ding-Yang-max,DPA,DDPA,DDPA+",
+            "DPA,DDPA,DDPA+",
     }])
     block_info.to_csv(block_dir / "block_info.csv", index=False)
 
