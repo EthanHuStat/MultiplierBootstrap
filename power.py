@@ -53,12 +53,12 @@ No neighboring N grid is used in this version.
 Run
 ---
 mkdir -p logs
-nohup python3 Fig2.py \
-  >> logs/Fig2.log 2>&1 &
+nohup python3 power.py \
+  >> logs/power.log 2>&1 &
 
 Monitor
 -------
-tail -f logs/Fig2.log
+tail -f logs/power.log
 """
 
 import os
@@ -105,7 +105,7 @@ EPSILON_GRID = [round(x, 1) for x in np.arange(0.1, 2.0 + 1e-12, 0.1)]
 class RunConfig(object):
     def __init__(
         self,
-        outdir="Fig2_results",
+        outdir="power_results",
         n_reps=500,
         b_boot=2000,
         alpha=0.01,
