@@ -71,8 +71,8 @@ Run
 ---
 mkdir -p logs
 
-nohup python3 Table1_gaussian_t10.py \
-  >> logs/Table1_gaussian_t10.log 2>&1 &
+nohup python3 accuracy.py \
+  >> logs/accuracy.log 2>&1 &
 
 The Gaussian run finishes before the t10 run begins. Results are saved in:
 
@@ -85,7 +85,7 @@ A cross-distribution summary is saved as:
 
 Monitor
 -------
-tail -f logs/Table1_gaussian_t10.log
+tail -f logs/accuracy.log
 """
 
 import os
@@ -121,7 +121,7 @@ ENTRY_DISTS = ("gaussian", "t10")
 class RunConfig(object):
     def __init__(
         self,
-        outdir="Table1_results",
+        outdir="accuracy_results",
         n_reps=1000,
         b_boot=2000,
         alpha=0.05,
