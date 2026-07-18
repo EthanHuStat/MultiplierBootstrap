@@ -40,11 +40,11 @@ Main design
 Run example
 -----------
     mkdir -p logs
-    nohup python3 Spike_detection.py         >> logs/Spike_detection4.log 2>&1 &
+    nohup python3 spike_detection.py         >> logs/spike_detection.log 2>&1 &
 
 Useful overrides
 ----------------
-    N_REPS=50 B_BOOT=500 N_JOBS=10 BEMA_M_FIT=5 BEMA_M_FINAL=50         python3 Spike_detection.py
+    N_REPS=50 B_BOOT=500 N_JOBS=10 BEMA_M_FIT=5 BEMA_M_FINAL=50         python3 spike_detection.py
 
     TASKS=easy_uniform_r5_equal_blockhaar         python3 Spike_detection.py
 
@@ -87,7 +87,7 @@ ENTRY_DISTS = ("gaussian", "t10")
 CALIBRATION_DIST = "gaussian"
 OUTDIR = os.environ.get(
     "OUTDIR",
-    "Spike_detection_results",
+    "spike_detection_results",
 )
 
 TASKS = (
